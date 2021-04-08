@@ -1,0 +1,78 @@
+:root {
+    --cell-back-color: rgb(149, 235, 202);
+    --ttt-border-color: rgb(2, 18, 20);
+}
+
+
+::-moz-selection {
+        color: #EB9A8F;
+        background: rgb(58, 2, 41);
+}
+
+::selection {
+        color: #EB9A8F;
+        background: rgb(58, 2, 41);
+}
+
+
+
+body {
+    background-color: black;
+    
+}
+
+
+#title {
+    min-height: 50px;
+    color: rgb(208, 238, 255);
+    text-shadow:rgb(102, 240, 187);
+    text-align: center;
+    font-size: 30px;
+    padding-top: 10px;
+}
+
+
+/* MAIN CONTAINER */
+.gameboard {
+    display: grid;
+    grid-template-columns: auto;
+    align-items: flex-start;
+    direction: ltr;
+    row-gap: 1vw;
+}
+
+
+/* USER INTERFACE */
+.game-ui {
+    display: grid;
+    background-color: white;
+    grid-template-rows: 5vw;
+    margin: auto;
+}
+
+.game-ui-cell {
+    box-shadow: darkslategrey;
+    background-color: rgb(170, 255, 230);
+    min-width: 4vw;
+    min-height: 4vw;
+    border: rgb(34, 12, 32) 3px solid;
+    color: rgb(46, 11, 38);
+    text-decoration: double;
+}
+
+/* TIC TAC TOE PANEL */
+
+.tic-tac-toe {
+    display: grid;
+    grid-template-columns: 12vw 12vw 12vw;
+    grid-template-rows: 12vw 12vw 12vw;
+    border: var(--ttt-border-color) 3px solid;
+    margin: auto;
+}
+
+.tic-tac-toe-cell {
+    background-color: var(--cell-back-color);
+    border: var(--ttt-border-color) 3px solid
+}
+
+
