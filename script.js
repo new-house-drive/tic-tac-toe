@@ -117,17 +117,25 @@ const Gameboard = (function(){
 
         container.appendChild(gameUI);
     }
-    
+
     const _create =  (player1, player2) => {
 
         if(!player2) {
-            alert('Not ready yet! :(')
+            alert('Not ready yet! :(');
             return;
         }
-         
+
+        /** status bar */
+        let statusBar = document.createElement('div');
+        statusBar.classList.add('gameboard-status-bar');
+        statusBar.innerText = `Current player: ${player1.getName()}(${player1.getWeapon()})`; 
+        container.appendChild(statusBar);
+
+        /** Tic tac toe ELEMENTS */
         let ticTacToe = document.createElement('div');
         ticTacToe.classList.add('tic-tac-toe');
         let counter = 1;
+
         for (let c = 0; c < 9; c++) {
             let cell = document.createElement('button');
             cell.classList.add('tic-tac-toe-cell');
@@ -135,9 +143,16 @@ const Gameboard = (function(){
             counter++;
             ticTacToe.appendChild(cell);
         }
+
+        /** tic tac toe Eventhandler (gameplay logic) */
+        /** TODO: Complete Event Handler */
+        for (button of document.querySelectorAll('.tic-tac-toe-cell')) {
+
+        }
         container.appendChild(ticTacToe)
 
     }
+
 
     const _displayPlayerTwo = () => {
         let xLabel = document.getElementById('player-two-label');
@@ -176,8 +191,7 @@ const Gameboard = (function(){
         gameUI.classList.add('game-ui-dissappeating');
 
         if (xPlayers == '1') {
-            setTimeout(() => {
-                 
+            setTimeout(() => {      
                 gameUI.style.display = 'none';
                 _create(playerOne);
                 }, 200)

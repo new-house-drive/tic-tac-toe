@@ -94,7 +94,6 @@ body {
     color: rgb(0, 8, 4);
 }
 
-
 .game-ui-player-name-label {
     grid-column: 1;
 }
@@ -112,6 +111,14 @@ body {
     padding: 1%;
 }
 
+/* GAME STATUS BAR*/
+
+.gameboard-status-bar {
+    color: rgb(164, 255, 172);
+    text-align: center;
+    font-size: small;
+}
+
 /* TIC TAC TOE PANEL */
 
 .tic-tac-toe {
@@ -120,7 +127,27 @@ body {
     grid-template-rows: 12vw 12vw 12vw;
     border: var(--ttt-border-color) 3px solid;
     margin: auto;
+    animation: ttt-appearance 0.2s linear;
 }
+
+@keyframes ttt-appearance {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    50% {
+        transform: translateY(50%);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: translateY(0%);
+        opacity: 1;
+    }
+    
+}
+
 
 .tic-tac-toe-cell {
     background-color: var(--ttt-cell-back-color);
@@ -134,3 +161,9 @@ body {
 .tic-tac-toe-cell:hover {
     background-color: rgb(58, 2, 41);
 }
+
+
+@keyframes ttt-cell-hover-animation {
+    
+}
+
