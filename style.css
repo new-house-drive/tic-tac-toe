@@ -1,6 +1,7 @@
 :root {
-    --cell-back-color: rgb(149, 235, 202);
+    --ttt-cell-back-color: rgb(149, 235, 202);
     --ttt-border-color: rgb(2, 18, 20);
+    --game-ui-color-input: rgb(181, 255, 162);
 }
 
 
@@ -44,20 +45,71 @@ body {
 
 /* USER INTERFACE */
 .game-ui {
-    display: grid;
-    background-color: white;
-    grid-template-rows: 5vw;
+    display: inline-grid;
+    background-color: rgb(1, 19, 1);
+    grid-template-columns: auto auto auto auto auto;
+    border:rgb(2, 18, 20) 3px solid;
     margin: auto;
+    padding: 10px;
 }
+
+.game-ui-dissappeating {
+    animation: xUIAnimation 0.2s linear;
+}
+
+@keyframes xUIAnimation {
+    0% {
+        opacity: 1;
+        transform: translateY(0%);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: translateY(-50%);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+    
+}
+
 
 .game-ui-cell {
     box-shadow: darkslategrey;
-    background-color: rgb(170, 255, 230);
-    min-width: 4vw;
-    min-height: 4vw;
-    border: rgb(34, 12, 32) 3px solid;
-    color: rgb(46, 11, 38);
+    min-width: 3vw;
+    min-height: 3vw;
+    color: rgb(213, 255, 231);
     text-decoration: double;
+    font-size: large;
+    padding-top: 14px;
+    text-align: center;
+    margin: auto;
+}
+
+.game-ui-new-game {
+    grid-column: 1 / 7;
+    background-color: rgb(154, 255, 205);
+    color: rgb(0, 8, 4);
+}
+
+
+.game-ui-player-name-label {
+    grid-column: 1;
+}
+
+
+.game-ui-player-name {
+    grid-column:  2 / span 5;
+    width: 12vw;
+    margin: 0.5vw;
+    background-color: rgb(0, 37, 13);
+    color: var(--game-ui-color-input);
+    text-align: start;
+    font-size: medium;
+    border: var(--game-ui-color-input) 2px solid;
+    padding: 1%;
 }
 
 /* TIC TAC TOE PANEL */
@@ -71,8 +123,14 @@ body {
 }
 
 .tic-tac-toe-cell {
-    background-color: var(--cell-back-color);
+    background-color: var(--ttt-cell-back-color);
     border: var(--ttt-border-color) 3px solid
 }
 
+.tic-tac-toe-cell-selected {
+    background-color: seagreen;
+}
 
+.tic-tac-toe-cell:hover {
+    background-color: rgb(58, 2, 41);
+}
