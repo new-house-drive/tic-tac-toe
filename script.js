@@ -6,6 +6,7 @@ const Gameboard = (function(){
         
         let gameUI = document.createElement('div');
         gameUI.classList.add('game-ui');
+
         /** Number of players */
 
         let playersLabel = document.createElement('label');
@@ -70,6 +71,7 @@ const Gameboard = (function(){
 
         gameUI.appendChild(playerTwoNameLabel);
         gameUI.appendChild(playerTwoNameInput);
+
         /* weapons */
         
         let weaponLabel = document.createElement('label');
@@ -120,39 +122,91 @@ const Gameboard = (function(){
 
     const _create =  (player1, player2) => {
 
+        let currentPlayer = player1;
+
+
         if(!player2) {
             alert('Not ready yet! :(');
             return;
         }
 
+
+        /** 2 PLAYERS ARE PLAYING THE GAME  */
+
+
         /** status bar */
         let statusBar = document.createElement('div');
         statusBar.classList.add('gameboard-status-bar');
-        statusBar.innerText = `Current player: ${player1.getName()}(${player1.getWeapon()})`; 
+        statusBar.innerText = `Current player: ${currentPlayer.getName()}(${currentPlayer.getWeapon()})`; 
         container.appendChild(statusBar);
 
         /** Tic tac toe ELEMENTS */
         let ticTacToe = document.createElement('div');
         ticTacToe.classList.add('tic-tac-toe');
+        
         let counter = 1;
-
         for (let c = 0; c < 9; c++) {
             let cell = document.createElement('button');
             cell.classList.add('tic-tac-toe-cell');
             cell.id = 'cell' + counter;
+            
+            /** GAME LOGIC */
+            cell.onclick = () => {
+                _tttCellEventListener(cell, currentPlayer);
+                currentPlayer = _newCurrentPlayer(player1, player2, currentPlayer)
+            }
+
             counter++;
             ticTacToe.appendChild(cell);
         }
 
-        /** tic tac toe Eventhandler (gameplay logic) */
-        /** TODO: Complete Event Handler */
-        for (button of document.querySelectorAll('.tic-tac-toe-cell')) {
-
-        }
         container.appendChild(ticTacToe)
 
     }
 
+    const _isGameOver = () => {
+        selectedCells = document.querySelectorAll('tic-tac-toe-cell-selected');
+        
+    }
+
+    const _tttCellEventListener = (cell, currentPlayer) => {
+        let name = currentPlayer.getName();
+        let weapon = currentPlayer.getWeapon();
+        /** CHANGE STATUS BAR */
+        let statusBar = document.querySelector('.gameboard-status-bar');
+        statusBar.innerText = `Current player: ${name}(${weapon})`;
+        
+        /** CHANGE THE BUTTON */
+        cell.disabled = 'true';
+        cell.innerText = weapon;
+        cell.className = 'tic-tac-toe-cell-selected';
+
+        /** Rewrite the color of Os for better UI */
+        if (weapon === 'O') {
+            cell.style.backgroundColor = "rgb(173, 255, 173)"; /*Light green color */
+            cell.style.color = "rgb(1, 3, 1)";
+        }
+
+        let body = document.querySelector('body');
+        body.style.backgroundColor = _getRandomGreenColor();
+        setTimeout(() => {body.style.backgroundColor = 'black'}, 300);
+
+
+    }
+
+    const _newCurrentPlayer = (player1, player2, currentPlayer) => {
+        return player1 == currentPlayer ? player2 : player1;
+    }
+
+    const _getRandomGreenColor = () => {
+        let r = Math.floor(Math.random() * 50);
+        let g = 100;
+        let b = Math.floor(Math.random() * 50);
+
+        let a = 0.9;
+
+        return `rgba(${r},${g},${b}, ${a})`;
+    }
 
     const _displayPlayerTwo = () => {
         let xLabel = document.getElementById('player-two-label');
