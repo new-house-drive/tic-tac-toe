@@ -67,7 +67,6 @@ const Gameboard = (function(){
         playerTwoNameInput.classList.add('game-ui-player-name');
         playerTwoNameInput.id = 'player-two-name-input';
 
-        console.log(twoPlayers.select);
 
         gameUI.appendChild(playerTwoNameLabel);
         gameUI.appendChild(playerTwoNameInput);
@@ -152,8 +151,14 @@ const Gameboard = (function(){
             
             /** GAME LOGIC */
             cell.onclick = () => {
-                _tttCellEventListener(cell, currentPlayer);
-                currentPlayer = _newCurrentPlayer(player1, player2, currentPlayer)
+                _сhangeButtonAppearance(cell, currentPlayer);
+                currentPlayer = _newCurrentPlayer(player1, player2, currentPlayer);
+                _updateStatusBar(currentPlayer);
+                if (_getWinCombination()) {
+                    let winCells = _isGameOver().split('');
+                    selectedCells = Array.from() 
+
+                }
             }
 
             counter++;
@@ -164,25 +169,69 @@ const Gameboard = (function(){
 
     }
 
-    const _isGameOver = () => {
-        selectedCells = document.querySelectorAll('tic-tac-toe-cell-selected');
-        
+    const _getWinCombination = () => {
+        let selectedCells = Array.from(document.querySelector('.tic-tac-toe').childNodes);
+        /***  +++ 0 1 2
+         *    --- 3 4 5
+         *    --- 6 7 8
+        */
+        if (checkWinConditions(selectedCells[0], selectedCells[1], selectedCells[2])) return '012';
+        /***  --- 0 1 2
+         *    +++ 3 4 5
+         *    --- 6 7 8
+        */
+        if (checkWinConditions(selectedCells[3], selectedCells[4], selectedCells[5])) return '345';
+        /***  --- 0 1 2
+         *    --- 3 4 5
+         *    +++ 6 7 8
+        */
+        if (checkWinConditions(selectedCells[6], selectedCells[7], selectedCells[8])) return '678';
+        /***  +-- 0 1 2
+         *    +-- 3 4 5
+         *    +-- 6 7 8
+        */
+        if (checkWinConditions(selectedCells[0], selectedCells[3], selectedCells[6])) return '036';
+        /***  -+- 0 1 2
+         *    -+- 3 4 5
+         *    -+- 6 7 8
+        */
+        if (checkWinConditions(selectedCells[1], selectedCells[4], selectedCells[7])) return '147';
+        /***  --+ 0 1 2
+         *    --+ 3 4 5
+         *    --+ 6 7 8
+        */
+        if (checkWinConditions(selectedCells[2], selectedCells[5], selectedCells[8])) return '258';
+        /***  +-- 0 1 2
+         *    -+- 3 4 5
+         *    --+ 6 7 8
+        */
+        if (checkWinConditions(selectedCells[0], selectedCells[4], selectedCells[8])) return '048';
+        /***  --+ 0 1 2
+         *    -+- 3 4 5
+         *    +-- 6 7 8
+        */
+        if (checkWinConditions(selectedCells[2], selectedCells[4], selectedCells[6])) return '246';
+
+        return false;
     }
 
-    const _tttCellEventListener = (cell, currentPlayer) => {
-        let name = currentPlayer.getName();
-        let weapon = currentPlayer.getWeapon();
-        /** CHANGE STATUS BAR */
-        let statusBar = document.querySelector('.gameboard-status-bar');
-        statusBar.innerText = `Current player: ${name}(${weapon})`;
+    const checkWinConditions = (cell1, cell2, cell3) => {
+        if (cell1.className == 'tic-tac-toe-cell') return false;
+        if (cell2.className == 'tic-tac-toe-cell') return false;
+        if (cell3.className == 'tic-tac-toe-cell') return false;
+
+        if (cell1.innerText == cell2.innerText && cell1.innerText == cell3.innerText) return true;
+    }
+
+    const _сhangeButtonAppearance = (cell, currentPlayer) => {
         
         /** CHANGE THE BUTTON */
         cell.disabled = 'true';
-        cell.innerText = weapon;
+        cell.innerText = currentPlayer.getWeapon();
         cell.className = 'tic-tac-toe-cell-selected';
 
         /** Rewrite the color of Os for better UI */
-        if (weapon === 'O') {
+        if (currentPlayer.getWeapon() === 'O') {
             cell.style.backgroundColor = "rgb(173, 255, 173)"; /*Light green color */
             cell.style.color = "rgb(1, 3, 1)";
         }
@@ -191,12 +240,22 @@ const Gameboard = (function(){
         body.style.backgroundColor = _getRandomGreenColor();
         setTimeout(() => {body.style.backgroundColor = 'black'}, 300);
 
+        /** CHECK IF THE GAME IS OVER */
+        _isGameOver();
 
     }
 
     const _newCurrentPlayer = (player1, player2, currentPlayer) => {
-        return player1 == currentPlayer ? player2 : player1;
+        return player1 === currentPlayer ? player2 : player1;
     }
+
+    const _updateStatusBar = (currentPlayer) => {
+        console.log(currentPlayer.getName());
+        console.log(currentPlayer.getWeapon());
+        let statusBar = document.querySelector('.gameboard-status-bar');
+        statusBar.innerText = `Current player: ${currentPlayer.getName()}(${currentPlayer.getWeapon()})`; 
+    }
+
 
     const _getRandomGreenColor = () => {
         let r = Math.floor(Math.random() * 50);
@@ -252,7 +311,7 @@ const Gameboard = (function(){
             return;
         }
 
-        let playerTwoName = document.getElementById('player-one-name-input').value;
+        let playerTwoName = document.getElementById('player-two-name-input').value;
         let playerTwoWeapon = _getSecondWeapon(playerOne.getWeapon());
         let playerTwo = Player(playerTwoName, playerTwoWeapon);
 
@@ -270,7 +329,7 @@ const Gameboard = (function(){
     }
 
     const _getSecondWeapon = (first_weapon) =>  {
-        return first_weapon == 'X' ? 'O' : 'X';
+        return first_weapon == 'X' ? 'O': 'X';
     }
 
     const _checkPlayers = () => {
