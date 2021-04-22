@@ -155,12 +155,27 @@ body {
 }
 
 .tic-tac-toe-cell-selected {
-    background-color: seagreen;
+    background-color: rgb(67, 235, 140);
+    border: var(--ttt-border-color) 4px solid;
+    font-size: 5rem;
+    animation: ttt-cell-selected-animation 200ms linear ;
+}
+
+@keyframes ttt-cell-selected-animation {
+    0% {
+        opacity: 0%;
+        font-size: 1rem;
+    }
+    100% {
+        opacity: 100%;
+        font-size: 5rem;
+    }
 }
 
 .tic-tac-toe-cell:hover {
     background-color: rgb(58, 2, 41);
 }
+
 
 
 @keyframes ttt-cell-hover-animation {
