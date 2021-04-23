@@ -13,12 +13,12 @@
 
     --game-ui-color-input: rgb(181, 255, 162);
     --game-ui-background-color: rgb(1, 19, 1);
-    --game-ui-border-color: rgb(2, 18, 20);
+    --game-ui-border-color: rgb(112, 255, 160);
 
 
     --game-ui-cell-color: rgb(213, 255, 231);
 
-    --game-ui-new-game-button-color: rgb(154, 255, 205);
+    --game-ui-new-game-button-color: rgb(65, 138, 101);
     --game-ui-new-game-cell-color: rgb(0, 8, 4);
 
     --game-ui-player-name-background-color: rgb(0, 37, 13);
@@ -156,6 +156,8 @@ body {
     grid-column: 1 / 7;
     background-color: var(--game-ui-new-game-button-color);
     color: var(--game-ui-new-game-cell-color);
+    margin-top: 1em;
+    border: var(--game-ui-border-color) 3px solid;
 }
 
 .game-ui-player-name-label {
