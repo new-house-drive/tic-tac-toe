@@ -40,6 +40,18 @@
     --tic-tac-toe-cell-game-over-text-color: rgb(255, 203, 252);
     
     
+    --restart-game-button-color: rgb(73, 2, 46);
+    --restart-game-button-border-color: rgb(29, 1, 25);
+    --restart-game-button-text-color: rgb(255, 211, 248);
+
+    --restart-game-button-color-hover: rgb(128, 2, 80);
+    --restart-game-button-border-color-hover: rgb(0, 0, 0);
+    --restart-game-button-text-color-hover: rgb(255, 255, 255);
+
+    --restart-game-button-color-active: rgb(255, 0, 157);
+    --restart-game-button-border-color-active: rgb(255, 255, 255);
+    --restart-game-button-text-color-active: rgb(0, 0, 0);
+
     /** Is never used, but serves as fast color-picker */
     --color-test: rgb(1, 3, 1);
 }
@@ -91,7 +103,19 @@ body {
     border: var(--game-ui-border-color) 3px solid;
     margin: auto;
     padding: 10px;
+    animation: game-ui-appearance-animation 300ms linear forwards;
 }
+
+@keyframes game-ui-appearance-animation {
+    0% {
+        transform: translateY(-100%);
+    }
+
+    100% {
+        transform: translateY(0%);
+    }
+}
+
 
 .game-ui-dissappeating {
     animation: xUIAnimation 0.2s linear;
@@ -191,13 +215,15 @@ body {
 
 .tic-tac-toe-cell {
     background-color: var(--ttt-cell-back-color);
-    border: var(--ttt-border-color) 3px solid
+    border: var(--ttt-border-color) 3px solid;
+    min-width: 5em;
+    min-height: 5em;
 }
 
 .tic-tac-toe-cell-selected {
     background-color: var(--tic-tac-toe-cell-selected-color);
     border: var(--ttt-border-color) 4px solid;
-    font-size: 5rem;
+    font-size: 3em;
     animation: ttt-cell-selected-animation 300ms ease-in-out;
 }
 
@@ -205,18 +231,18 @@ body {
     background-color: var(--tic-tac-toe-cell-selected-O-color);
     color: var(--tic-tac-toe-cell-selected-text-O-color);
     border: var(--ttt-border-color) 4px solid;
-    font-size: 5rem;
+    font-size: 3em;
     animation: ttt-cell-selected-animation 300ms ease-in-out;
 }
 
 @keyframes ttt-cell-selected-animation {
     0% {
         opacity: 0%;
-        font-size: 1rem;
+        font-size: 1em;
     }
     100% {
         opacity: 100%;
-        font-size: 5rem;
+        font-size: 3em;
     }
 }
 
@@ -227,10 +253,6 @@ body {
 
 .tic-tac-toe-cell-game-over {
     animation: ttt-cell-game-over-animation 400ms ease-in-out forwards;
-    /* background-color: var(--tic-tac-toe-cell-game-over-background-color);
-    color: var(--tic-tac-toe-cell-game-over-text-color);
-    border: rgb(223, 169, 255) 6px solid;
-    font-size: 6rem;*/
 }
 
 @keyframes ttt-cell-game-over-animation {
@@ -243,6 +265,28 @@ body {
         background-color: var(--tic-tac-toe-cell-game-over-background-color);
         color: var(--tic-tac-toe-cell-game-over-text-color);
         border: rgb(223, 169, 255) 6px solid;
-        font-size: 6rem;
+        font-size: 3em;
     }
+}
+
+/** RESTART GAME */
+.restart-game-button {
+    border: var(--restart-game-button-border-color) 4px solid;
+    background-color: var(--restart-game-button-color);
+    color: var(--restart-game-button-text-color);
+    width: 20%;
+    margin-left: 40%;
+}
+
+.restart-game-button:active {
+    border: var(--restart-game-button-border-color-active) 4px solid;
+    background-color: var(--restart-game-button-color-active);
+    color: var(--restart-game-button-text-color-active);
+}
+
+
+.restart-game-button:hover {
+    border: var(--restart-game-button-border-color-hover) 4px solid;
+    background-color: var(--restart-game-button-color-hover);
+    color: var(--restart-game-button-text-color-hover);
 }
