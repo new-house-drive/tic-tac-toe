@@ -121,8 +121,33 @@ const Gameboard = (function(){
 
     const _create =  (player1, player2) => {
 
-        let currentPlayer = player1;
-        if (currentPlayer.getWeapon() == 'O') currentPlayer = player2;
+        /** STATUS BAR */
+        let statusBar = document.createElement('div');
+        statusBar.classList.add('gameboard-status-bar');
+        container.appendChild(statusBar);
+
+        /** TIC TAC TOE  */
+        let ticTacToe = document.createElement('div');
+        ticTacToe.classList.add('tic-tac-toe');
+        
+        for (let c = 0; c < 9; c++) {
+            let cell = document.createElement('button');
+            cell.classList.add('tic-tac-toe-cell');
+            ticTacToe.appendChild(cell);
+        }
+        container.appendChild(ticTacToe)
+
+        /* RESTART GAME BUTTON */
+        let restartGame = document.createElement('button');
+        restartGame.classList.add('restart-game-button');
+        restartGame.innerText = 'Restart';
+        restartGame.onclick = setDefault;
+
+        container.appendChild(restartGame);
+
+        /** EXTRACTED VARIABLES */
+        let gameCells = Array.from(document.querySelectorAll('.tic-tac-toe-cell'));
+
 
 
         if(!player2) {
@@ -131,25 +156,14 @@ const Gameboard = (function(){
             return;
         }
 
-
         /** 2 PLAYERS ARE PLAYING THE GAME  */
 
+        let currentPlayer = player1;
+        if (currentPlayer.getWeapon() == 'O') currentPlayer = player2;
 
-        /** status bar */
-        let statusBar = document.createElement('div');
-        statusBar.classList.add('gameboard-status-bar');
         statusBar.innerText = `Current player: ${currentPlayer.getName()}(${currentPlayer.getWeapon()})`; 
-        container.appendChild(statusBar);
 
-        /** Tic tac toe ELEMENTS */
-        let ticTacToe = document.createElement('div');
-        ticTacToe.classList.add('tic-tac-toe');
-        
-        for (let c = 0; c < 9; c++) {
-            let cell = document.createElement('button');
-            cell.classList.add('tic-tac-toe-cell');
-            
-            /** GAME LOGIC */
+        for (let cell of gameCells) {
             cell.onclick = () => {
                 _сhangeButtonAppearance(cell, currentPlayer);
                 let combination = _getWinCombination();
@@ -160,17 +174,7 @@ const Gameboard = (function(){
                 currentPlayer = _newCurrentPlayer(player1, player2, currentPlayer);
                 _updateStatusBar(currentPlayer);
             }
-            ticTacToe.appendChild(cell);
-        }
-
-        container.appendChild(ticTacToe)
-
-        let restartGame = document.createElement('button');
-        restartGame.classList.add('restart-game-button');
-        restartGame.innerText = 'Restart';
-        restartGame.onclick = setDefault;
-
-        container.appendChild(restartGame);
+        } 
 
     }
 
