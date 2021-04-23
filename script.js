@@ -122,10 +122,12 @@ const Gameboard = (function(){
     const _create =  (player1, player2) => {
 
         let currentPlayer = player1;
+        if (currentPlayer.getWeapon() == 'O') currentPlayer = player2;
 
 
         if(!player2) {
             alert('Not ready yet! :(');
+            setDefault();
             return;
         }
 
@@ -143,7 +145,6 @@ const Gameboard = (function(){
         let ticTacToe = document.createElement('div');
         ticTacToe.classList.add('tic-tac-toe');
         
-        let counter = 1;
         for (let c = 0; c < 9; c++) {
             let cell = document.createElement('button');
             cell.classList.add('tic-tac-toe-cell');
@@ -151,74 +152,107 @@ const Gameboard = (function(){
             /** GAME LOGIC */
             cell.onclick = () => {
                 _сhangeButtonAppearance(cell, currentPlayer);
-                
-                if (_getWinCombination()) {
-                    let winCells = _getWinCombination().split('');
-                    let selectedCells = Array.from(document.querySelector('.tic-tac-toe').childNodes) 
-
-                    for (c of winCells) {
-                        let winCell = selectedCells[c];
-                        setTimeout(winCell.className = 'tic-tac-toe-cell-game-over', 300);
-                        
-                    }
-                    alert(`${currentPlayer.getName()} won! Congratulations!`);
-                    setTimeout(setDefault, 2500);
+                let combination = _getWinCombination();
+                if (combination) {
+                    _endTheGame(combination, currentPlayer.getName());
                     return;
                 }
                 currentPlayer = _newCurrentPlayer(player1, player2, currentPlayer);
                 _updateStatusBar(currentPlayer);
             }
-
-            counter++;
             ticTacToe.appendChild(cell);
         }
 
         container.appendChild(ticTacToe)
 
+        let restartGame = document.createElement('button');
+        restartGame.classList.add('restart-game-button');
+        restartGame.innerText = 'Restart';
+        restartGame.onclick = setDefault;
+
+        container.appendChild(restartGame);
+
+    }
+
+    const _endTheGame = (winCombination, winner) => {
+        let selectedCells = Array.from(document.querySelector('.tic-tac-toe').childNodes);
+        for (let button of selectedCells) button.disabled = true;
+
+        let statusBar = document.querySelector('.gameboard-status-bar');
+
+
+        /** IF DRAW */
+        if (winCombination === true) {
+            statusBar.innerText = `It\'s a Draw! The winner is friendship! ^__^`;
+            for (let button of selectedCells) button.className = 'tic-tac-toe-cell-game-over';
+            return;
+        }
+        
+        /** IF ONE OF THE PLAYERS IS WINNER */
+        statusBar.innerText = `${winner} won! Congratulations!`;
+
+        let winCells = winCombination.split('');
+        for (let c of winCells) {
+            let winCell = selectedCells[c];
+            winCell.className = 'tic-tac-toe-cell-game-over';            
+        }
+        
     }
 
     const _getWinCombination = () => {
         let selectedCells = Array.from(document.querySelector('.tic-tac-toe').childNodes);
+        
+        
+        
         /***  +++ 0 1 2
          *    --- 3 4 5
          *    --- 6 7 8
         */
         if (checkWinConditions(selectedCells[0], selectedCells[1], selectedCells[2])) return '012';
+        
         /***  --- 0 1 2
          *    +++ 3 4 5
          *    --- 6 7 8
         */
         if (checkWinConditions(selectedCells[3], selectedCells[4], selectedCells[5])) return '345';
+        
         /***  --- 0 1 2
          *    --- 3 4 5
          *    +++ 6 7 8
         */
         if (checkWinConditions(selectedCells[6], selectedCells[7], selectedCells[8])) return '678';
+        
         /***  +-- 0 1 2
          *    +-- 3 4 5
          *    +-- 6 7 8
         */
         if (checkWinConditions(selectedCells[0], selectedCells[3], selectedCells[6])) return '036';
+        
         /***  -+- 0 1 2
          *    -+- 3 4 5
          *    -+- 6 7 8
         */
         if (checkWinConditions(selectedCells[1], selectedCells[4], selectedCells[7])) return '147';
+        
         /***  --+ 0 1 2
          *    --+ 3 4 5
          *    --+ 6 7 8
         */
         if (checkWinConditions(selectedCells[2], selectedCells[5], selectedCells[8])) return '258';
+        
         /***  +-- 0 1 2
          *    -+- 3 4 5
          *    --+ 6 7 8
         */
         if (checkWinConditions(selectedCells[0], selectedCells[4], selectedCells[8])) return '048';
+        
         /***  --+ 0 1 2
          *    -+- 3 4 5
          *    +-- 6 7 8
         */
         if (checkWinConditions(selectedCells[2], selectedCells[4], selectedCells[6])) return '246';
+
+        if (!document.querySelector('.tic-tac-toe-cell')) return true;
 
         return false;
     }
