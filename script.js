@@ -147,18 +147,26 @@ const Gameboard = (function(){
         for (let c = 0; c < 9; c++) {
             let cell = document.createElement('button');
             cell.classList.add('tic-tac-toe-cell');
-            cell.id = 'cell' + counter;
             
             /** GAME LOGIC */
             cell.onclick = () => {
                 _сhangeButtonAppearance(cell, currentPlayer);
+                
+                if (_getWinCombination()) {
+                    let winCells = _getWinCombination().split('');
+                    let selectedCells = Array.from(document.querySelector('.tic-tac-toe').childNodes) 
+
+                    for (c of winCells) {
+                        let winCell = selectedCells[c];
+                        setTimeout(winCell.className = 'tic-tac-toe-cell-game-over', 300);
+                        
+                    }
+                    alert(`${currentPlayer.getName()} won! Congratulations!`);
+                    setTimeout(setDefault, 2500);
+                    return;
+                }
                 currentPlayer = _newCurrentPlayer(player1, player2, currentPlayer);
                 _updateStatusBar(currentPlayer);
-                if (_getWinCombination()) {
-                    let winCells = _isGameOver().split('');
-                    selectedCells = Array.from() 
-
-                }
             }
 
             counter++;
@@ -232,16 +240,12 @@ const Gameboard = (function(){
 
         /** Rewrite the color of Os for better UI */
         if (currentPlayer.getWeapon() === 'O') {
-            cell.style.backgroundColor = "rgb(173, 255, 173)"; /*Light green color */
-            cell.style.color = "rgb(1, 3, 1)";
+            cell.className = 'tic-tac-toe-cell-selected-O';
         }
-
         let body = document.querySelector('body');
         body.style.backgroundColor = _getRandomGreenColor();
         setTimeout(() => {body.style.backgroundColor = 'black'}, 300);
 
-        /** CHECK IF THE GAME IS OVER */
-        _isGameOver();
 
     }
 
@@ -346,7 +350,7 @@ const Gameboard = (function(){
     return {
         setDefault
     }
-})()
+})();
 
 
 
